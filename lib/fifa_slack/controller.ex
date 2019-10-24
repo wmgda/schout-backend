@@ -11,8 +11,9 @@ defmodule FifaSlack.Controller do
     channel = slack.channels[message.channel]
 
     game = case channel[:name] do
-      "pilkarzyki" -> "Piłkarzyki"
-      _            -> "FIFA"
+      "pilkarzyki"   -> "Piłkarzyki"
+      "rocketleague" -> "Rocket League"
+      _              -> "FIFA"
     end
 
     player = %Fifa.Player{
