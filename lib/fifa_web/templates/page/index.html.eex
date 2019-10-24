@@ -1,0 +1,12 @@
+<section class="row">
+  <article class="column">
+    <h2>Rooms</h2>
+    <ul>
+      <%= for {key, room} <- @rooms do %>
+      <li>
+        <%= key %> | <%= room.game %> | <%= length(room.players) %>/<%= room.limit %>
+      </li>
+      <% end %>
+    </ul>
+  </article>
+</section>
