@@ -7,6 +7,11 @@ defmodule FifaSlack.Controller do
     {:ok, state}
   end
 
+  def handle_close(reason, _slack, _state) do
+    IO.puts "Disconnected, reason: #{reason}"
+    :close
+  end
+
   def create_room(message, slack, note \\ "") do
     channel = slack.channels[message.channel]
 
