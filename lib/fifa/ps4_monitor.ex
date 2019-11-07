@@ -21,11 +21,15 @@ defmodule Fifa.Ps4Monitor do
 
     if (last_status != "" && last_status != status) do
       broadcast("lobby", "ps4_status_changed", %{status: status})
-
-      channel_id = Application.get_env(:fifa, :default_channel_id)
-      post_message(channel_id, "PS4 is now #{status}.")
+      send_slack_notification(status)
     end
 
     status
+  end
+
+  defp send_slack_notification(_status = "ok"), do: nil
+  defp send_slack_notification(status) do
+    channel_id = Application.get_env(:fifa, :default_channel_id)
+    post_message(channel_id, "PS4 is now #{status}.")
   end
 end
