@@ -2,6 +2,7 @@ defmodule Fifa.Ps4Monitor do
   use Task
   import FifaWeb.Endpoint
   import Slack.Web.Chat
+  require Logger
 
   def start_link(_arg) do
     Task.start_link(&poll/0)
@@ -20,6 +21,8 @@ defmodule Fifa.Ps4Monitor do
     status = Fifa.Ps4.get_short_status()
 
     if (last_status != "" && last_status != status) do
+      Logger.info "PS4 status changed to #{status}"
+
       broadcast("lobby", "ps4_status_changed", %{status: status})
       send_slack_notification(status)
     end

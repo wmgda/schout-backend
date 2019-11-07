@@ -1,14 +1,15 @@
 defmodule FifaSlack.Controller do
   use Slack
   import Slack.Web.Chat
+  require Logger
 
   def handle_connect(slack, state) do
-    IO.puts "Connected as #{slack.me.name}"
+    Logger.info "Connected as #{slack.me.name}"
     {:ok, state}
   end
 
   def handle_close(reason, _slack, _state) do
-    IO.puts "Disconnected, reason: #{reason}"
+    Logger.info "Disconnected, reason: #{reason}"
     :close
   end
 
@@ -66,7 +67,7 @@ defmodule FifaSlack.Controller do
   # end
 
   def handle_info({:message, text, channel}, slack, state) do
-    IO.puts "Sending your message, captain!"
+    Logger.info "Sending your message, captain!"
 
     send_message(text, channel, slack)
 

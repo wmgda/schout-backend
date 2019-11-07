@@ -4,6 +4,8 @@ defmodule Fifa.Lobby do
   import FifaWeb.Endpoint
   import Slack.Web.Chat
 
+  require Logger
+
   def start_link(_) do
     Agent.start_link(fn -> Map.new() end, name: __MODULE__)
   end
@@ -11,7 +13,7 @@ defmodule Fifa.Lobby do
   def add_room(room) do
     Agent.update(__MODULE__, &Map.put(&1, room.id, room))
 
-    IO.puts "room #{room.id} created"
+    Logger.info "room #{room.id} created"
 
     blocks = FifaSlack.Blocks.build_room_blocks(room) |> Poison.encode!()
     post_message(room.channel_id, "", %{blocks: blocks})
@@ -31,7 +33,7 @@ defmodule Fifa.Lobby do
 
     room = rooms |> Map.get(room_id)
 
-    IO.puts "player #{player.id} joined room #{room.id}"
+    Logger.info "player #{player.id} joined room #{room.id}"
 
     broadcast("lobby", "player_joined", room)
     broadcast("room:#{room.id}", "player_joined", %{player: player, room: room})
