@@ -44,7 +44,9 @@ defmodule FifaSlack.Controller do
 
   def handle_event(_message = %{type: "message", bot_id: _}, _, state), do: {:ok, state}
   def handle_event(message = %{type: "message"}, slack, state) do
-    case message[:text] do
+    text = message[:text] |> String.trim |> String.downcase
+
+    case text do
       "gramy" <> note -> create_room(message, slack, note)
       "start" <> note -> create_room(message, slack, note)
       "status"        -> check_status(message, slack)
