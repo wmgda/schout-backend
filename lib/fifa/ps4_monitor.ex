@@ -27,7 +27,7 @@ defmodule Fifa.Ps4Monitor do
     status
   end
 
-  defp send_slack_notification(_status = "ok"), do: nil
+  defp send_slack_notification(_status = "on"), do: nil
   defp send_slack_notification(status) do
     channel_id = Application.get_env(:fifa, :default_channel_id)
     post_message(channel_id, "PS4 is now #{status}.")

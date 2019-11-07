@@ -36,15 +36,17 @@ defmodule FifaSlack.Controller do
   end
 
   def check_status(message, _slack) do
-    IO.inspect message
-
     short_status = Fifa.Ps4.get_short_status()
     post_message(message.channel, "PS4 is #{short_status}")
   end
 
   def handle_event(_message = %{type: "message", bot_id: _}, _, state), do: {:ok, state}
   def handle_event(message = %{type: "message"}, slack, state) do
+    IO.inspect message[:text]
+
     text = message[:text] |> String.trim |> String.downcase
+
+    IO.inspect text
 
     case text do
       "gramy" <> note -> create_room(message, slack, note)
