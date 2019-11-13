@@ -9,6 +9,7 @@ defmodule FifaSlack.Controller do
   end
 
   def handle_close(reason, _slack, _state) do
+    reason = Kernel.inspect(reason)
     Logger.info "Disconnected, reason: #{reason}"
     :close
   end
