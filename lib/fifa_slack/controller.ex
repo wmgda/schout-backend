@@ -8,10 +8,10 @@ defmodule FifaSlack.Controller do
     {:ok, state}
   end
 
-  def handle_close(reason, _slack, _state) do
+  def handle_close(reason, _slack, state) do
     reason = Kernel.inspect(reason)
     Logger.info "Disconnected, reason: #{reason}"
-    :close
+    {:reconnect, state}
   end
 
   def create_room(message, slack, note \\ "") do
